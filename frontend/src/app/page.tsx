@@ -14,6 +14,15 @@ import { BacktestPanel } from '@/components/BacktestPanel';
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState<'monitor' | 'trades' | 'backtest'>('monitor');
   const [wsConnected, setWsConnected] = useState(false);
+  const [now, setNow] = useState<string>('');
+
+  // 客户端时钟 - 避免 SSR/CSR 时间不一致导致 hydration mismatch
+  useEffect(() => {
+    const tick = () => setNow(new Date().toLocaleString('zh-CN'));
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
 
   const { data: stats, mutate: refetchStats } = useSWR('/api/stats', fetcher, {
     refreshInterval: 5000,
@@ -141,7 +150,7 @@ export default function Dashboard() {
         <span className="text-text-muted/60">·</span>
         <span>每笔 {configData?.trade?.amountSol ?? '-'} SOL</span>
         <div className="flex-1" />
-        <span>{new Date().toLocaleString('zh-CN')}</span>
+        <span suppressHydrationWarning>{now}</span>
       </footer>
     </div>
   );
