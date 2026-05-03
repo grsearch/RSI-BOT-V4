@@ -1,0 +1,32 @@
+{
+  "name": "sol-bot-backend",
+  "version": "4.0.0",
+  "description": "SOL RSI+量能 自动交易机器人后端",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js",
+    "pm2": "pm2 start ecosystem.config.cjs"
+  },
+  "dependencies": {
+    "@solana/web3.js": "^1.95.4",
+    "@solana/spl-token": "^0.4.9",
+    "bs58": "^6.0.0",
+    "fastify": "^5.0.0",
+    "@fastify/cors": "^10.0.1",
+    "@fastify/websocket": "^11.0.1",
+    "ws": "^8.18.0",
+    "axios": "^1.7.7",
+    "dotenv": "^16.4.5",
+    "better-sqlite3": "^11.3.0",
+    "p-queue": "^8.0.1",
+    "p-retry": "^6.2.0",
+    "decimal.js": "^10.4.3",
+    "pino": "^9.5.0",
+    "pino-pretty": "^11.2.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

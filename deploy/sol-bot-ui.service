@@ -1,0 +1,38 @@
+[Unit]
+Description=SOL Bot Frontend Dashboard (Next.js)
+Documentation=https://github.com/your-org/sol-bot
+After=network-online.target sol-bot.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=solbot
+Group=solbot
+WorkingDirectory=/opt/sol-bot/frontend
+
+Environment=NODE_ENV=production
+Environment=PORT=3000
+Environment=NEXT_PUBLIC_API_BASE=http://localhost:3001
+
+ExecStart=/usr/bin/npm run start
+
+KillSignal=SIGTERM
+TimeoutStopSec=10
+Restart=on-failure
+RestartSec=5
+
+LimitNOFILE=65535
+MemoryMax=1G
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=sol-bot-ui
+
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/sol-bot/frontend/.next
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
