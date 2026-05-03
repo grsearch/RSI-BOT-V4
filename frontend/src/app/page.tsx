@@ -135,11 +135,11 @@ export default function Dashboard() {
       <footer className="px-6 py-4 border-t border-bg-border text-[10px] text-text-muted flex items-center gap-4">
         <span>SOL RSI+量能 V4 · GMGN 标准</span>
         <span className="text-text-muted/60">·</span>
-        <span>{configData?.strategy?.klineIntervalSec / 60}min K线</span>
+        <span>{configData?.strategy ? `${configData.strategy.klineIntervalSec / 60}min` : '-'} K线</span>
         <span className="text-text-muted/60">·</span>
-        <span>RSI({configData?.strategy?.rsiPeriod}) + EMA{configData?.strategy?.emaPeriod}</span>
+        <span>RSI({configData?.strategy?.rsiPeriod ?? '-'}) + EMA{configData?.strategy?.emaPeriod ?? '-'}</span>
         <span className="text-text-muted/60">·</span>
-        <span>每笔 {configData?.trade?.amountSol} SOL</span>
+        <span>每笔 {configData?.trade?.amountSol ?? '-'} SOL</span>
         <div className="flex-1" />
         <span>{new Date().toLocaleString('zh-CN')}</span>
       </footer>

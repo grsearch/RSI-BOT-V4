@@ -1,4 +1,7 @@
-const BASE = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:3001';
+// BASE 默认空字符串 —— 浏览器会用同源协议+主机名+端口
+// 配合 Next.js rewrites（next.config.mjs），/api/* 会被转发到后端 localhost:3001
+// 这样浏览器从任何 IP/域名 访问都能正常工作（不再绑定 localhost）
+const BASE = process.env.NEXT_PUBLIC_API_BASE || '';
 
 export async function apiGet<T = any>(path: string): Promise<T> {
   const r = await fetch(`${BASE}${path}`, { cache: 'no-store' });
@@ -27,9 +30,13 @@ export async function apiDelete<T = any>(path: string): Promise<T> {
 
 export const fetcher = (path: string) => apiGet(path);
 
-// WebSocket
+// WebSocket - 用浏览器当前同源地址（同样配合 Next rewrites）
 export function connectWs(onMessage: (msg: any) => void): WebSocket {
-  const wsBase = BASE.replace(/^http/, 'ws');
+  // 优先用 NEXT_PUBLIC_WS_BASE，否则同源
+  const wsBase = process.env.NEXT_PUBLIC_WS_BASE
+    || (typeof window !== 'undefined'
+      ? `${window.location.protocol === 'https:' ? 'wss' : 'ws'}://${window.location.host}`
+      : 'ws://localhost:3000');
   const ws = new WebSocket(`${wsBase}/ws`);
   ws.onmessage = e => {
     try {
