@@ -10,7 +10,7 @@ import bs58 from 'bs58';
 import pRetry from 'p-retry';
 import { config } from '../utils/config.js';
 import { child } from '../utils/logger.js';
-import { connection, getPriorityFee, confirmTransaction } from './helius.js';
+import { connection, getPriorityFee, confirmTransaction } from '../api/helius.js';
 
 const log = child('jupiter');
 
